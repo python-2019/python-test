@@ -1,3 +1,6 @@
+
+from pykafka import KafkaClient
+
 def read_topic():
     """
     得到所有主题

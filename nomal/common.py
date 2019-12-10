@@ -7,5 +7,5 @@ def hello():
     print ("hello " + word)
 
 if __name__ == '__main__':
-    s = str(time.time())
+    s = str(time.localtime(time.time()))
     print(s)
