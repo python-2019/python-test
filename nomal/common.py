@@ -1,11 +1,17 @@
 import sys
 import time
+from functools import singledispatch
 
 
-def hello():
-    word = sys.argv[1]
-    print ("hello " + word)
+@singledispatch
+def send(obj):
+    print(obj)
+
+@send.register(str)
+def _(message):
+    print(message)
 
 if __name__ == '__main__':
-    s = str(time.localtime(time.time()))
-    print(s)
+    s = send(time.localtime(time.time()))
+    s1 = send("1")
+
