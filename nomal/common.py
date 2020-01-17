@@ -1,5 +1,6 @@
 import sys
 import time
+from datetime import date
 from functools import singledispatch
 
 
@@ -11,7 +12,15 @@ def send(obj):
 def _(message):
     print(message)
 
+
+def getDate():
+    global strTime
+    timeStamp = time.time()
+    localTime = time.localtime(timeStamp)
+    strTime = time.strftime("%Y-%m-%d %H:%M:%S", localTime)
+
+
 if __name__ == '__main__':
-    s = send(time.localtime(time.time()))
-    s1 = send("1")
+    getDate()
+    print(strTime)
 

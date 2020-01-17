@@ -22,7 +22,15 @@ def _(topic, message, kafka_addr):
 
 
 if __name__ == '__main__':
-    topic = "testTopic"
-    message=""
-    kafka_addr=["172.20.66.238:9092"]
-    send()
+    # topic = "testTopic-batch"
+    topic = "testTopic-roll"
+    message = """{"date":"%s"}"""
+    kafka_addr = ["localhost:9092"]
+
+    for i in range(1):
+        timeStamp = time.time()
+        localTime = time.localtime(timeStamp)
+        strftime = time.strftime("%Y-%m-%d %H:%M:%S", localTime)
+        print(message % strftime)
+        send(topic, message % strftime, kafka_addr)
+        time.sleep(0.001)
