@@ -24,9 +24,9 @@ class jsonUtil(object):
 
 
 if __name__ == '__main__':
-    jsonData = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
+    jsonData = '{"a":1,"b":2,"c":3,"d":4,"e":{"e1":132}}';
     json_dict = jsonUtil.json_2_dict(jsonData)
-    print(json_dict["a"])
+    print(json_dict["e"]["e1"])
 
     dict___json = jsonUtil.dict_2_json(json_dict)
     print(dict___json)
