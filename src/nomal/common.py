@@ -1,7 +1,7 @@
-import sys
 import time
-from datetime import date
 from functools import singledispatch
+
+from src.util.dateUtil import dateUtil
 
 
 @singledispatch
@@ -23,4 +23,5 @@ def getDate():
 if __name__ == '__main__':
     getDate()
     print(strTime)
-
+    date_str = dateUtil.get_now_date_str()
+    print(date_str)
