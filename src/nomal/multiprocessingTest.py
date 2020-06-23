@@ -34,13 +34,13 @@ def lock_work(lock):
     print('%s is done' % os.getpid())
     lock.release()
 
-
+# 不带锁
 def no_lock():
     for i in range(3):
         p = Process(target=no_lock_work)
         p.start()
 
-
+# 带锁
 def lock():
     lock = Lock()
     for i in range(3):
@@ -49,6 +49,6 @@ def lock():
 
 
 if __name__ == '__main__':
-    # demo()
+    demo()
     # no_lock()
-    lock()
+    # lock()

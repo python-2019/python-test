@@ -11,18 +11,19 @@ class myThread (threading.Thread):
         self.threadID = threadID
         self.name = name
         self.counter = counter
+    def print_time(self,threadName, delay, counter):
+        while counter:
+            if exitFlag:
+                threadName.exit()
+            time.sleep(delay)
+            print ("%s: %s" % (threadName, time.ctime(time.time())))
+            counter -= 1
     def run(self):
         print ("开始线程：" + self.name)
-        print_time(self.name, self.counter, 5)
+        self.print_time(self.name, self.counter, 5)
         print ("退出线程：" + self.name)
 
-def print_time(threadName, delay, counter):
-    while counter:
-        if exitFlag:
-            threadName.exit()
-        time.sleep(delay)
-        print ("%s: %s" % (threadName, time.ctime(time.time())))
-        counter -= 1
+
 if __name__ == '__main__':
 
     # 创建新线程
