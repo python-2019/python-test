@@ -9,9 +9,12 @@ from src.util.dateUtil import dateUtil
 
 from src.util.mysqlUtil import mysqlUtil
 
-# test_kafka_addr = ["172.20.66.120:9092"]
-test_kafka_addr = ["172.20.66.143:9092"]
+test_kafka_addr = ["172.20.66.120:9092"]
+# test_kafka_addr = ["172.20.66.143:9092"]
 uat_kafka_addr = ["172.20.66.238:9092"]
+# uat_kafka_addr = ["172.20.66.239:9092"]
+
+
 # uat_kafka_addr = ["jmctsphadoop03.uat:9092,jmctsphadoop04.uat:9092,jmctsphadoop05.uat:9092"]
 
 def get_msg(vin, event):
@@ -39,7 +42,9 @@ def send_veh_status_all(topic="testTopic"):
              "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER",
              "DRIVETIMER", "DRIVETIMER", "DRIVETIMER"]
     event = ["DRIVETIMER"]
-    topic = "veh.status.all"
+    # topic = "veh.status.all"
+    # topic = "vehicle-position-topic-41"
+    topic = "veh.dtc.data"
     # topic = "veh.status.allnew"
     # topic = "vehicle-action-41"
     # topic = "testTopic"
@@ -51,27 +56,71 @@ def send_veh_status_all(topic="testTopic"):
         msg = get_msg(vin, event_code)
         print(str(i) + "===" + str(event_code) + "===" + vin)
         # print(msg)
-        send(topic, msg, test_kafka_addr)
-        time.sleep(1)
+        send(topic, msg, uat_kafka_addr)
+        # time.sleep(1)
 
 
 def send_veh_status_all_single(topic="testTopic"):
     topic = "veh.status.all"
     # topic = "veh.status.all.C01.test"
-    kafka_addr = test_kafka_addr
-    # kafka_addr = uat_kafka_addr
+    # kafka_addr = test_kafka_addr
+    kafka_addr = uat_kafka_addr
     print(topic)
     print(kafka_addr)
     for i in range(10000):
         # VINTEST0000000005 LS7FCGVC0HB000114
-        msg = """{"id":"c83c0bf2-1587030371019-5665","vin":"CX743P326HN600064","iccid":"89860117770010373057","imei":"867223026862284","veh_series":"JH476","event_code":"DRIVETIMER","recv_ts":1587030371020,"pkg_ts":%d,"send_type":"0","pkg_id":"c83c0bf2-1587030371019-5665","data":{"V019":{"sts":0,"val":"90.0"},"V008":{"sts":0,"val":"0"},"V129":{"sts":1,"val":"0"},"V128":{"sts":1,"val":"0"},"V006":{"sts":0,"val":"0"},"V127":{"sts":1,"val":"0"},"A188":{"sts":0,"val":"0"},"A189":{"sts":0,"val":"0"},"V096":{"sts":0,"val":"0.0"},"A186":{"sts":0,"val":"7"},"V095":{"sts":0,"val":"1045.0"},"A187":{"sts":0,"val":"0"},"V094":{"sts":0,"val":"41"},"A184":{"sts":0,"val":"0"},"V093":{"sts":0,"val":"0.0"},"A185":{"sts":0,"val":"0"},"V092":{"sts":0,"val":"1039.5"},"A182":{"sts":0,"val":"2"},"V091":{"sts":0,"val":"38"},"A183":{"sts":0,"val":"0"},"V090":{"sts":0,"val":"0.0"},"A180":{"sts":0,"val":"0"},"A181":{"sts":0,"val":"0"},"V258":{"sts":1,"val":"0"},"V015":{"sts":3,"val":"0.0"},"V014":{"sts":0,"val":"0"}}}"""
+        msg = """{"id":"c83c0bf2-fdgf-dfgfdg-%d","vin":"CX743P326HN600064","iccid":"89860117770010373057","imei":"867223026862284","veh_series":"JH476","event_code":"DRIVETIMER","recv_ts":1587030371020,"pkg_ts":%d,"send_type":"0","pkg_id":"c83c0bf2-1587030371019-5665","data":{"V019":{"sts":0,"val":"90.0"},"V008":{"sts":0,"val":"0"},"V129":{"sts":1,"val":"0"},"V128":{"sts":1,"val":"0"},"V006":{"sts":0,"val":"0"},"V127":{"sts":1,"val":"0"},"A188":{"sts":0,"val":"0"},"A189":{"sts":0,"val":"0"},"V096":{"sts":0,"val":"0.0"},"A186":{"sts":0,"val":"7"},"V095":{"sts":0,"val":"1045.0"},"A187":{"sts":0,"val":"0"},"V094":{"sts":0,"val":"41"},"A184":{"sts":0,"val":"0"},"V093":{"sts":0,"val":"0.0"},"A185":{"sts":0,"val":"0"},"V092":{"sts":0,"val":"1039.5"},"A182":{"sts":0,"val":"2"},"V091":{"sts":0,"val":"38"},"A183":{"sts":0,"val":"0"},"V090":{"sts":0,"val":"0.0"},"A180":{"sts":0,"val":"0"},"A181":{"sts":0,"val":"0"},"V258":{"sts":1,"val":"0"},"V015":{"sts":3,"val":"0.0"},"V014":{"sts":0,"val":"0"}}}"""
+        msg = msg % (dateUtil.timestamp_millis(), dateUtil.timestamp_millis())
+        print(msg)
+        print(i)
+        try:
+            send(topic, msg, kafka_addr)
+        except Exception as e:
+            print("发送异常: " + str(e))
+        sleep = 5
+        print("sleep: %ds" % sleep)
+        time.sleep(sleep)
+
+def send_testTopic(topic="testTopic"):
+    # topic = "testTopic2"
+    topics = ["testTopic","testTopic2"]
+    # topics = ["testTopic-1","testTopic2-1"]
+    # kafka_addr = test_kafka_addr
+    kafka_addr = uat_kafka_addr
+    print(kafka_addr)
+    for i in range(10000):
+        topic = topics[random.randint(0, topics.__len__() - 1)]
+        print(topic)
+        # VINTEST0000000005 LS7FCGVC0HB000114
+        msg = """{"id":"c83c0bf2-%s","vin":"CX743P326HN600064","iccid":"89860117770010373057","imei":"867223026862284","veh_series":"JH476","event_code":"DRIVETIMER","recv_ts":1587030371020,"pkg_ts":%d,"send_type":"0","pkg_id":"c83c0bf2-1587030371019-5665","data":{"V019":{"sts":0,"val":"90.0"},"V008":{"sts":0,"val":"0"},"V129":{"sts":1,"val":"0"},"V128":{"sts":1,"val":"0"},"V006":{"sts":0,"val":"0"},"V127":{"sts":1,"val":"0"},"A188":{"sts":0,"val":"0"},"A189":{"sts":0,"val":"0"},"V096":{"sts":0,"val":"0.0"},"A186":{"sts":0,"val":"7"},"V095":{"sts":0,"val":"1045.0"},"A187":{"sts":0,"val":"0"},"V094":{"sts":0,"val":"41"},"A184":{"sts":0,"val":"0"},"V093":{"sts":0,"val":"0.0"},"A185":{"sts":0,"val":"0"},"V092":{"sts":0,"val":"1039.5"},"A182":{"sts":0,"val":"2"},"V091":{"sts":0,"val":"38"},"A183":{"sts":0,"val":"0"},"V090":{"sts":0,"val":"0.0"},"A180":{"sts":0,"val":"0"},"A181":{"sts":0,"val":"0"},"V258":{"sts":1,"val":"0"},"V015":{"sts":3,"val":"0.0"},"V014":{"sts":0,"val":"0"}}}"""
+        msg = msg % (topic, dateUtil.timestamp_millis())
+        print(msg)
+        print(i)
+        try:
+            send(topic, msg, kafka_addr)
+        except Exception as e:
+            print("发送异常: " + str(e))
+        sleep = 1
+        print("sleep: %ds" % sleep)
+        # time.sleep(sleep)
+
+def send_reset_single(topic="testTopic"):
+    topic = "veh.paak.reset"
+    # kafka_addr = test_kafka_addr
+    kafka_addr = uat_kafka_addr
+    print(topic)
+    print(kafka_addr)
+    for i in range(1000):
+        # VINTEST0000000005 LS7FCGVC0HB000114
+        msg = """{"id":"c83c0bf2-1587030371019-5665","vin":"CX743P326HN600064","iccid":"89860117770010373057","imei":"867223026862284","veh_series":"JH476","event_code":"DRIVETIMER","recv_ts":1587030371020,"pkg_ts":%d,"send_type":"0","pkg_id":"c83c0bf2-1587030371019-5665","data":{"V500":{"sts":0,"val":"UHIJJINHIUHIHJKSHJKDHKJ"}}}"""
         print(msg % dateUtil.timestamp_millis())
         print(i)
         try:
             send(topic, msg % dateUtil.timestamp_millis(), kafka_addr)
         except Exception as e:
-            print("发送异常: "+str(e))
-        time.sleep(0.1)
+            print("发送异常: " + str(e))
+        time.sleep(1)
+
 
 def send_tservice_unit_activation_topic():
     topic = "tservice-unit-activation-topic"
@@ -110,11 +159,15 @@ def send_flow_add_topic():
         # send(topic, msg, test_kafka_addr)
         time.sleep(1)
 
+
 if __name__ == '__main__':
     # send_veh_status_all()
     # send_veh_status_all_single()
+    send_reset_single()
     # get_vin_array();
     # do_multiprocessing()
     # send_tservice_unit_activation_topic()
     # send_tservice_unit_open_topic()
-    send_flow_add_topic()
+    # send_flow_add_topic()
+    # logstash 用
+    # send_testTopic()
