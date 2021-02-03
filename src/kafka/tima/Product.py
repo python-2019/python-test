@@ -2,17 +2,13 @@ import random
 import time
 from multiprocessing import Process
 
-from kafka import KafkaProducer
-
 from src.kafka.KafkaProduct import get_msg, send
 from src.util.dateUtil import dateUtil
-
 from src.util.mysqlUtil import mysqlUtil
 
-test_kafka_addr = ["172.20.66.120:9092"]
-# test_kafka_addr = ["172.20.66.143:9092"]
-uat_kafka_addr = ["172.20.66.238:9092"]
-# uat_kafka_addr = ["172.20.66.239:9092"]
+# test_kafka_addr = ["172.20.66.120:9092"]
+test_kafka_addr = ["172.20.66.143:9092"]
+uat_kafka_addr = ["jmctsphadoop03.uat:9092","jmctsphadoop04.uat:9092","jmctsphadoop05.uat:9092"]
 
 
 # uat_kafka_addr = ["jmctsphadoop03.uat:9092,jmctsphadoop04.uat:9092,jmctsphadoop05.uat:9092"]
@@ -42,9 +38,9 @@ def send_veh_status_all(topic="testTopic"):
              "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER",
              "DRIVETIMER", "DRIVETIMER", "DRIVETIMER"]
     event = ["DRIVETIMER"]
-    # topic = "veh.status.all"
+    topic = "veh.status.all"
     # topic = "vehicle-position-topic-41"
-    topic = "veh.dtc.data"
+    # topic = "veh.dtc.data"
     # topic = "veh.status.allnew"
     # topic = "vehicle-action-41"
     # topic = "testTopic"
@@ -80,15 +76,35 @@ def send_veh_status_all_single(topic="testTopic"):
         sleep = 5
         print("sleep: %ds" % sleep)
         time.sleep(sleep)
-
+def send_veh_dtc_data_single(topic="testTopic"):
+    topic = "veh.dtc.data"
+    # topic = "veh.status.all.C01.test"
+    # kafka_addr = test_kafka_addr
+    kafka_addr = uat_kafka_addr
+    print(topic)
+    print(kafka_addr)
+    for i in range(10000):
+        # VINTEST0000000005 LS7FCGVC0HB000114
+        msg = """{"pkg_id":"13b0ddf8-1597890178647-0651","vin":"LXWFEPHD6LT703348","iccid":"89860918710006512996","imei":"864687040927245","veh_series":"N520EV","event_code":"ENGINESTARTDIAGNOSTIC","recv_ts":%d,"pkg_ts":%d,"send_type":"0","ext_data":{},"data":{"0":{},"5":{"U012100":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U220D00":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U015500":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"B100116":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U010100":{"failure_type":"","dtc_prop":{"orgStu":"9"},"dtc_status":"9"},"U011200":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U011100":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U011000":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U121700":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U121800":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U107300":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U121600":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"}},"6":{},"38":{},"39":{"U011000":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U007300":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"}},"8":{},"12":{"C221000":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"}},"13":{},"15":{"P1B0106":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U011101":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U007300":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P1B0101":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P1B011B":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U025902":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"}},"18":{"P189916":{"failure_type":"","dtc_prop":{"orgStu":"40"},"dtc_status":"40"},"P184A16":{"failure_type":"","dtc_prop":{"orgStu":"40"},"dtc_status":"40"},"U029387":{"failure_type":"","dtc_prop":{"orgStu":"40"},"dtc_status":"40"},"P183519":{"failure_type":"","dtc_prop":{"orgStu":"44"},"dtc_status":"44"},"U107300":{"failure_type":"","dtc_prop":{"orgStu":"40"},"dtc_status":"40"}},"22":{"P140500":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P140900":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"}},"23":{},"30":{"P21E093":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U0AC489":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21F190":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"U0AC4A0":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21F134":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21E0DD":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21E032":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21F011":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21E031":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"},"P21F131":{"failure_type":"","dtc_prop":{"orgStu":"8"},"dtc_status":"8"}}}}
+"""
+        msg = msg % (dateUtil.timestamp_millis(), dateUtil.timestamp_millis())
+        print(msg)
+        print(i)
+        try:
+            send(topic, msg, kafka_addr)
+        except Exception as e:
+            print("发送异常: " + str(e))
+        sleep = 5
+        print("sleep: %ds" % sleep)
+        time.sleep(sleep)
 def send_testTopic(topic="testTopic"):
     # topic = "testTopic2"
-    topics = ["testTopic","testTopic2"]
+    topics = ["testTopic"]
     # topics = ["testTopic-1","testTopic2-1"]
     # kafka_addr = test_kafka_addr
     kafka_addr = uat_kafka_addr
     print(kafka_addr)
-    for i in range(10000):
+    for i in range(1):
         topic = topics[random.randint(0, topics.__len__() - 1)]
         print(topic)
         # VINTEST0000000005 LS7FCGVC0HB000114
@@ -100,7 +116,7 @@ def send_testTopic(topic="testTopic"):
             send(topic, msg, kafka_addr)
         except Exception as e:
             print("发送异常: " + str(e))
-        sleep = 1
+        sleep = 3
         print("sleep: %ds" % sleep)
         # time.sleep(sleep)
 
@@ -121,6 +137,21 @@ def send_reset_single(topic="testTopic"):
             print("发送异常: " + str(e))
         time.sleep(1)
 
+def send_canal(topic="testTopic"):
+    topic = "canal-ftb-tima-test"
+    # kafka_addr = test_kafka_addr
+    kafka_addr = uat_kafka_addr
+    print(topic)
+    print(kafka_addr)
+    for i in range(1000):
+        msg = """{"data":[{"id":"1","create_time":"2020-03-06 11:24:51","name":"rt","remark":"44444开发团队","update_time":"2020-03-02 16:37:51"}],"database":"tima-test","es":1603867843000,"id":1,"isDdl":false,"mysqlType":{"id":"bigint(20)","create_time":"datetime","name":"varchar(100)","remark":"varchar(100)","update_time":"datetime"},"old":[{"remark":"开发团队最666"}],"pkNames":["id"],"sql":"","sqlType":{"id":-5,"create_time":93,"name":12,"remark":12,"update_time":93},"table":"dept","ts":1603867843350,"type":"UPDATE"}"""
+        print(msg)
+        print(i)
+        try:
+            send(topic, msg , kafka_addr)
+        except Exception as e:
+            print("发送异常: " + str(e))
+        time.sleep(1)
 
 def send_tservice_unit_activation_topic():
     topic = "tservice-unit-activation-topic"
@@ -161,9 +192,10 @@ def send_flow_add_topic():
 
 
 if __name__ == '__main__':
-    # send_veh_status_all()
+    send_veh_status_all()
     # send_veh_status_all_single()
-    send_reset_single()
+    # send_veh_dtc_data_single()
+    # send_reset_single()
     # get_vin_array();
     # do_multiprocessing()
     # send_tservice_unit_activation_topic()
@@ -171,3 +203,4 @@ if __name__ == '__main__':
     # send_flow_add_topic()
     # logstash 用
     # send_testTopic()
+    send_canal()
