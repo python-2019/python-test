@@ -16,7 +16,7 @@ Created on Wed Jul 18 16:46:33 2018
 from socket import *
 
 HOST='127.0.0.1'
-PORT=21567
+PORT=60000
 BUFSIZE=1024
 ADDR=(HOST, PORT)
 
@@ -26,8 +26,8 @@ if __name__ == '__main__':
 
     while True:
         # 手动输入:
-        # data = input('>')
-        data = "hello"
+        data = input('>')
+        # data = "hello"
         print(type(data))
         print("消息发送: "+data)
         data = str.encode(data)

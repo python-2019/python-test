@@ -8,7 +8,7 @@ from src.util.mysqlUtil import mysqlUtil
 
 # test_kafka_addr = ["172.20.66.120:9092"]
 test_kafka_addr = ["172.20.66.143:9092"]
-uat_kafka_addr = ["jmctsphadoop03.uat:9092","jmctsphadoop04.uat:9092","jmctsphadoop05.uat:9092"]
+uat_kafka_addr = ["jmctsphadoop03.uat:9092", "jmctsphadoop04.uat:9092", "jmctsphadoop05.uat:9092"]
 
 
 # uat_kafka_addr = ["jmctsphadoop03.uat:9092,jmctsphadoop04.uat:9092,jmctsphadoop05.uat:9092"]
@@ -77,6 +77,8 @@ def send_veh_status_all_single(topic="testTopic"):
         sleep = 5
         print("sleep: %ds" % sleep)
         time.sleep(sleep)
+
+
 def send_veh_dtc_data_single(topic="testTopic"):
     topic = "veh.dtc.data"
     # topic = "veh.status.all.C01.test"
@@ -98,6 +100,8 @@ def send_veh_dtc_data_single(topic="testTopic"):
         sleep = 5
         print("sleep: %ds" % sleep)
         time.sleep(sleep)
+
+
 def send_testTopic(topic="testTopic"):
     # topic = "testTopic2"
     topics = ["testTopic"]
@@ -121,6 +125,7 @@ def send_testTopic(topic="testTopic"):
         print("sleep: %ds" % sleep)
         # time.sleep(sleep)
 
+
 def send_reset_single(topic="testTopic"):
     topic = "veh.paak.reset"
     # kafka_addr = test_kafka_addr
@@ -138,6 +143,7 @@ def send_reset_single(topic="testTopic"):
             print("发送异常: " + str(e))
         time.sleep(1)
 
+
 def send_canal(topic="testTopic"):
     topic = "canal-ftb-tima-test"
     # kafka_addr = test_kafka_addr
@@ -149,10 +155,11 @@ def send_canal(topic="testTopic"):
         print(msg)
         print(i)
         try:
-            send(topic, msg , kafka_addr)
+            send(topic, msg, kafka_addr)
         except Exception as e:
             print("发送异常: " + str(e))
         time.sleep(1)
+
 
 def send_tservice_unit_activation_topic():
     topic = "tservice-unit-activation-topic"
@@ -192,9 +199,28 @@ def send_flow_add_topic():
         time.sleep(1)
 
 
+def send_topic(topic="testTopic"):
+    event = ["OFFLINE,ONLINE", "ONLINE,ONLINE", "DRIVETIMER,ONLINE", "DRIVETIMER,ONLINE", "DRIVETIMER,ONLINE",
+             "DRIVETIMER", "DRIVETIMER",
+             "DRIVETIMER", "DRIVETIMER,ONLINE", "DRIVETIMER,ONLINE,ONLINE,ONLINE", "DRIVETIMER,ONLINE",
+             "DRIVETIMER,ONLINE", "DRIVETIMER", "DRIVETIMER",
+             "DRIVETIMER,ONLINE", "DRIVETIMER,ONLINE,ONLINE", "DRIVETIMER,ONLINE,ONLINE", "DRIVETIMER", "DRIVETIMER",
+             "DRIVETIMER", "DRIVETIMER",
+             "DRIVETIMER,ONLINE,ONLINE", "DRIVETIMER,ONLINE,ONLINE", "DRIVETIMER", "DRIVETIMER", "DRIVETIMER",
+             "DRIVETIMER", "DRIVETIMER",
+             "DRIVETIMER,ONLINE", "DRIVETIMER,ONLINE", "DRIVETIMER,ONLINE,ONLINE,ONLINE"]
+    # topic = "testTopic"
+
+    for i in range(10000):
+        event_code = event[random.randint(0, event.__len__() - 1)]
+        print(str(i) + ": " + event_code)
+        send(topic, event_code, uat_kafka_addr)
+        time.sleep(0.1)
+
+
 if __name__ == '__main__':
     # send_veh_status_all()
-    send_veh_status_all_single()
+    # send_veh_status_all_single()
     # send_veh_dtc_data_single()
     # send_reset_single()
     # get_vin_array();
@@ -205,3 +231,4 @@ if __name__ == '__main__':
     # logstash 用
     # send_testTopic()
     # send_canal()
+    send_topic()
