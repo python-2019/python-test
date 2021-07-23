@@ -1,3 +1,6 @@
+import os
+
+
 class fileUtil(object):
     """
     文件工具类
@@ -35,6 +38,10 @@ class fileUtil(object):
         """
         dest_file.write(str)
         dest_file.flush()
+
+    @staticmethod
+    def get_file_list_base(dir):
+       return os.listdir(dir)
 
 
 if __name__ == '__main__':

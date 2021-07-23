@@ -49,6 +49,6 @@ def lock():
 
 
 if __name__ == '__main__':
-    demo()
+    # demo()
     # no_lock()
-    # lock()
+    lock()

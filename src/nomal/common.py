@@ -4,6 +4,7 @@ import time
 # 开头定义async,表示要在协程运行，不定义的话，循环监听增加不了
 async def coroutine():
     print("协程运行")
+    time.sleep(1)
     print("运行结束")
 
 
@@ -16,6 +17,8 @@ if __name__ == '__main__':
     coroutine_3 = coroutine()
     print('进入事件循环监听...')
     # run_until_complete翻译成中文：一直运行到完成为止
-    event_loop.run_until_complete(coroutine())
+    event_loop.run_until_complete(coroutine_1)
+    event_loop.run_until_complete(coroutine_2)
+    event_loop.run_until_complete(coroutine_3)
     print('关闭事件循环监听..')
     event_loop.close()
